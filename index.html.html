@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Riqueza Consultancy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --mint:     #96D9AD;
+      --teal-lt:  #7BBCB2;
+      --teal:     #4A90A4;
+      --charcoal: #3D5562;
+      --dark:     #383838;
+      --bg:       #233540;
+      --surface:  rgba(62,85,98,0.55);
+      --text:     #f0f4f5;
+      --muted:    #9fc0ca;
+      --border:   rgba(123,188,178,0.22);
+      --red:      #e08080;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--charcoal);
+      border-bottom: 1px solid var(--border);
+      padding: 9px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 101;
+    }
+    .top-bar-contact { display: flex; align-items: center; gap: 28px; }
+    .contact-info-label {
+      font-size: 0.6rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--teal-lt); padding-right: 14px; border-right: 1px solid var(--border);
+    }
+    .top-bar-contact a {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.71rem; font-weight: 400; letter-spacing: 0.08em;
+      color: var(--muted); text-decoration: none; transition: color 0.25s;
+    }
+    .top-bar-contact a:hover { color: var(--teal-lt); }
+    .admin-top-btn {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--teal-lt); background: none; border: 1px solid rgba(106,166,156,0.35);
+      padding: 5px 14px; cursor: pointer; transition: all 0.25s; font-family: 'Barlow', sans-serif;
+    }
+    .admin-top-btn:hover { background: rgba(58,118,136,0.15); border-color: var(--teal); color: #fff; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 38px; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(35,53,64,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-mark {
+      width: 32px; height: 32px;
+      border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark::before { content: ''; width: 12px; height: 12px; background: var(--teal); }
+    .logo-text { font-size: 0.74rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--teal-lt); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; overflow: hidden;
+      display: flex; align-items: center;
+      padding: 100px 60px;
+      min-height: 92vh;
+      gap: 80px;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(74,144,164,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-left { flex: 1; max-width: 580px; position: relative; z-index: 1; }
+
+    .eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .eyebrow-line { width: 32px; height: 1px; background: var(--teal); }
+    .eyebrow-text { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal-lt); }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 4.5vw, 4rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--text); margin-bottom: 28px;
+    }
+    h1 strong { font-weight: 600; color: #fff; }
+    h1 span   { color: var(--teal-lt); }
+
+    .hero-desc { font-size: 0.93rem; line-height: 1.9; color: var(--muted); max-width: 460px; margin-bottom: 44px; }
+
+    .cta-group { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 56px; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 12px;
+      text-decoration: none; background: var(--teal); color: #fff;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 15px 32px; position: relative; overflow: hidden;
+      transition: box-shadow 0.3s;
+      box-shadow: 0 8px 30px rgba(74,144,164,0.4);
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0; background: var(--teal-lt);
+      transform: translateX(-101%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary:hover { box-shadow: 0 12px 40px rgba(74,144,164,0.55); }
+    .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
+    .btn-primary svg { transition: transform 0.3s; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.25s;
+    }
+    .btn-ghost::before { content: ''; width: 20px; height: 1px; background: currentColor; transition: width 0.3s; }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-ghost:hover::before { width: 28px; }
+
+    .stats { display: flex; gap: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 1.85rem; font-weight: 600; color: #fff; line-height: 1; }
+    .stat-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+    /* RIGHT TICKER PANEL */
+    .hero-right {
+      flex: 0 0 280px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1;
+    }
+
+    .panel-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 22px 26px; backdrop-filter: blur(8px); position: relative;
+    }
+    .panel-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--teal);
+    }
+    .panel-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal-lt); margin-bottom: 8px; }
+    .panel-value { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: #fff; }
+    .panel-sub { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .badge-up { display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 500; color: var(--mint); margin-top: 8px; }
+    .badge-up::before { content: '▲'; font-size: 0.55rem; }
+    .badge-dn { display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 500; color: var(--red); margin-top: 8px; }
+    .badge-dn::before { content: '▼'; font-size: 0.55rem; }
+    .live-skeleton {
+      display: inline-block; width: 100px; height: 1em;
+      background: linear-gradient(90deg, var(--charcoal) 25%, rgba(74,144,164,0.2) 50%, var(--charcoal) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite; border-radius: 2px; vertical-align: middle;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%       { transform: translateX(-8px); }
+      40%       { transform: translateX(8px); }
+      60%       { transform: translateX(-5px); }
+      80%       { transform: translateX(5px); }
+    }
+    .live-dot {
+      display: inline-block; width: 6px; height: 6px; background: var(--mint);
+      border-radius: 50%; margin-right: 5px; animation: pulse 2s infinite;
+    }
+
+    /* ── SERVICES ── */
+    .section {
+      max-width: 1200px; margin: 0 auto; padding: 90px 60px;
+    }
+
+    .section-label {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .section-label span { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal-lt); }
+    .section-label::before { content: ''; width: 32px; height: 1px; background: var(--teal); }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 300; color: #fff;
+      margin-bottom: 56px; line-height: 1.2;
+    }
+    .section-title em { color: var(--teal-lt); font-style: italic; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    .service-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 36px 30px; position: relative; transition: border-color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .service-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 2px; background: var(--teal);
+      transform: scaleX(0); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon { font-size: 1.6rem; margin-bottom: 18px; }
+    .service-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
+    .service-desc { font-size: 0.83rem; line-height: 1.8; color: var(--muted); }
+    .service-bullets { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 7px; }
+    .service-bullets li { font-size: 0.78rem; color: var(--muted); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+    .service-bullets li::before { content: '—'; color: var(--teal); flex-shrink: 0; margin-top: 1px; }
+    .btn-book-service {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 20px;
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--teal-lt); border: 1px solid rgba(74,144,164,0.35);
+      padding: 8px 16px; background: none; font-family: 'Barlow', sans-serif;
+      cursor: pointer; transition: all 0.25s;
+    }
+    .service-card:hover .btn-book-service { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+    /* Process steps */
+    .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 64px; position: relative; }
+    .process-grid::before {
+      content: ''; position: absolute; top: 28px; left: 12.5%; right: 12.5%;
+      height: 1px; background: linear-gradient(90deg, var(--teal), var(--teal-lt), var(--teal));
+      opacity: 0.35; z-index: 0;
+    }
+    .process-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+    .process-num {
+      width: 56px; height: 56px; border: 1px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600;
+      color: var(--teal-lt); background: var(--bg); margin-bottom: 18px;
+    }
+    .process-step-title { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
+    .process-step-desc { font-size: 0.76rem; line-height: 1.7; color: var(--muted); }
+
+    /* Free consultation banner */
+    .free-consult-banner {
+      display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      background: linear-gradient(135deg, rgba(74,144,164,0.12), rgba(123,188,178,0.07));
+      border: 1px solid var(--teal);
+      padding: 36px 40px; margin-bottom: 40px; position: relative; overflow: hidden;
+    }
+    .free-consult-banner::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 4px; height: 100%; background: linear-gradient(180deg, var(--teal), var(--mint));
+    }
+    .free-consult-badge {
+      display: inline-block; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--mint); margin-bottom: 10px;
+    }
+    .free-consult-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600;
+      color: #fff; margin-bottom: 10px; line-height: 1.2;
+    }
+    .free-consult-desc {
+      font-size: 0.83rem; line-height: 1.8; color: var(--muted); max-width: 560px;
+    }
+    .free-consult-left { display: flex; flex-direction: column; }
+
+    /* Pricing tiers */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 64px; }
+    .pricing-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 40px 32px; position: relative; transition: transform 0.3s, border-color 0.3s;
+    }
+    .pricing-card:hover { transform: translateY(-6px); }
+    .pricing-card.featured {
+      border-color: var(--teal);
+      background: rgba(74,144,164,0.1);
+    }
+    .pricing-card.featured::before {
+      content: 'Most Popular'; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--teal); color: #fff; font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; padding: 4px 14px;
+    }
+    .pricing-tier { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal-lt); margin-bottom: 12px; }
+    .pricing-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .pricing-price { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: #fff; line-height: 1; margin-bottom: 4px; }
+    .pricing-price span { font-size: 1rem; color: var(--muted); font-family: 'Barlow', sans-serif; }
+    .pricing-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .pricing-features li { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+    .pricing-features li::before { content: '✓'; color: var(--mint); font-weight: 700; flex-shrink: 0; }
+    .pricing-features li.no::before { content: '✕'; color: #4a6270; }
+    .pricing-features li.no { color: #4a6270; }
+    .pricing-features li.free { color: var(--mint); font-weight: 500; }
+    .pricing-features li.free::before { content: '✦'; color: var(--mint); }
+    .btn-pricing {
+      display: block; text-align: center; padding: 14px; text-decoration: none;
+      border: 1px solid var(--teal); color: var(--text);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      transition: all 0.25s; font-family: 'Barlow', sans-serif;
+      background: rgba(74,144,164,0.1);
+    }
+    .btn-pricing:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .pricing-card.featured .btn-pricing { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .pricing-card.featured .btn-pricing:hover { background: var(--teal-lt); border-color: var(--teal-lt); }
+
+    /* divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0 60px; }
+
+    /* ── BOOKING ── */
+    #booking { background: rgba(26,36,42,0.6); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+
+    /* Calendar */
+    .calendar-wrap { background: var(--surface); border: 1px solid var(--border); padding: 32px; }
+
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .cal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: #fff; }
+
+    .cal-nav { background: none; border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; cursor: pointer; font-size: 1rem; transition: border-color 0.25s, color 0.25s; display: flex; align-items: center; justify-content: center; }
+    .cal-nav:hover { border-color: var(--teal); color: var(--teal-lt); }
+
+    .cal-days-header { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; margin-bottom: 8px; }
+    .cal-day-name { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 4px 0; }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+
+    .cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; cursor: pointer; border: 1px solid transparent;
+      transition: all 0.2s; border-radius: 2px; color: var(--text);
+    }
+    .cal-day:hover:not(.empty):not(.past):not(.blocked-day) { border-color: var(--teal); color: var(--teal-lt); }
+    .cal-day.empty { cursor: default; }
+    .cal-day.past { color: #4a6270; cursor: default; }
+    .cal-day.today { border-color: var(--teal-lt); color: var(--teal-lt); font-weight: 500; }
+    .cal-day.selected { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .cal-day.has-bookings::after { content: ''; display: block; width: 4px; height: 4px; background: var(--mint); border-radius: 50%; position: absolute; bottom: 3px; }
+    .cal-day.has-bookings { position: relative; }
+    .cal-day.blocked-day { color: #3a4a52; cursor: default; background: rgba(201,112,112,0.06); border-color: rgba(201,112,112,0.15); }
+    .cal-day.full-day { color: #c97070 !important; cursor: default; background: rgba(201,112,112,0.13); border-color: rgba(201,112,112,0.4) !important; font-weight: 500; }
+    .cal-day.full-day:hover { color: #c97070 !important; border-color: rgba(201,112,112,0.4) !important; background: rgba(201,112,112,0.13) !important; }
+    .cal-day.weekend { color: #4a5e66; cursor: default; }
+
+    /* Slots */
+    .slots-wrap { display: flex; flex-direction: column; gap: 20px; }
+    .slots-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .slots-sub { font-size: 0.78rem; color: var(--muted); }
+
+    .slots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+    .slot-btn {
+      padding: 10px 6px; border: 1px solid var(--border); background: none;
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.76rem;
+      letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s;
+    }
+    .slot-btn:hover:not(:disabled) { border-color: var(--teal); color: var(--teal-lt); background: rgba(58,118,136,0.08); }
+    .slot-btn.selected { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .slot-btn:disabled { color: #3a4a52; border-color: #2a3840; cursor: default; text-decoration: line-through; }
+    .slot-btn.blocked-slot { color: var(--red) !important; border-color: rgba(201,112,112,0.3) !important; background: rgba(201,112,112,0.05) !important; cursor: default !important; text-decoration: line-through; }
+
+    /* Booking form */
+    .booking-form { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+    .form-field label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-lt); }
+    .form-field input, .form-field textarea {
+      background: rgba(35,53,64,0.85); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.85rem;
+      padding: 11px 14px; outline: none; transition: border-color 0.25s;
+      width: 100%;
+    }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--teal); }
+    .form-field textarea { resize: none; height: 80px; }
+
+    .no-date-msg { color: var(--muted); font-size: 0.85rem; padding: 20px 0; text-align: center; opacity: 0.7; }
+
+    /* ── ONBOARDING OVERLAY ── */
+    .onboard-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(18,28,34,0.97);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .onboard-overlay.hidden { display: none; }
+
+    .onboard-box {
+      width: 100%; max-width: 460px; padding: 0 24px;
+      animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .onboard-logo {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 48px; justify-content: center;
+    }
+    .onboard-logo-mark {
+      width: 28px; height: 28px; border: 2px solid var(--teal);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .onboard-logo-mark::before { content: ''; width: 10px; height: 10px; background: var(--teal); }
+    .onboard-logo-text { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text); }
+
+    .onboard-step { display: none; }
+    .onboard-step.active { display: block; }
+
+    .onboard-step-counter {
+      font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--teal-lt); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .onboard-dots { display: flex; gap: 6px; }
+    .onboard-dot {
+      width: 24px; height: 2px; background: var(--border); transition: background 0.3s;
+    }
+    .onboard-dot.active { background: var(--teal); }
+    .onboard-dot.done  { background: var(--teal-lt); }
+
+    .onboard-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 300;
+      color: #fff; line-height: 1.15; margin-bottom: 36px;
+    }
+    .onboard-question em { color: var(--teal-lt); font-style: italic; }
+
+    .onboard-input {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid var(--border); color: #fff;
+      font-family: 'Barlow', sans-serif; font-size: 1.1rem; font-weight: 300;
+      padding: 10px 0; outline: none; transition: border-color 0.3s;
+      margin-bottom: 12px;
+    }
+    .onboard-input:focus { border-color: var(--teal); }
+    .onboard-input::placeholder { color: var(--muted); font-size: 1rem; }
+
+    .onboard-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .onboard-next {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: none; border: 1px solid var(--teal); color: var(--teal-lt);
+      font-family: 'Barlow', sans-serif; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 11px 24px; cursor: pointer; transition: all 0.25s; margin-top: 20px;
+    }
+    .onboard-next:hover { background: var(--teal); color: #fff; }
+    .onboard-next svg { transition: transform 0.25s; }
+    .onboard-next:hover svg { transform: translateX(4px); }
+
+    .onboard-skip {
+      display: block; margin-top: 16px; font-size: 0.68rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #3d5562; background: none; border: none;
+      cursor: pointer; font-family: 'Barlow', sans-serif; transition: color 0.2s;
+    }
+    .onboard-skip:hover { color: var(--muted); }
+
+    .onboard-finish {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--teal); border: 1px solid var(--teal); color: #fff;
+      font-family: 'Barlow', sans-serif; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 11px 28px; cursor: pointer; transition: all 0.25s; margin-top: 20px;
+    }
+    .onboard-finish:hover { background: var(--teal-lt); border-color: var(--teal-lt); }
+
+    .onboard-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: var(--teal); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: 10000;
+    }
+    .payment-modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(10,18,22,0.88);
+      z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(6px);
+    }
+    .payment-modal-overlay.open { display: flex; }
+    .payment-modal {
+      background: #1e2b33; border: 1px solid var(--border);
+      max-width: 500px; width: 93%; position: relative;
+      animation: popIn 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    .payment-modal-head {
+      background: rgba(74,144,164,0.12); border-bottom: 1px solid var(--border);
+      padding: 28px 32px;
+    }
+    .payment-plan-badge { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal-lt); margin-bottom: 6px; }
+    .payment-plan-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; color: #fff; }
+    .payment-plan-price { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+    .payment-modal-body { padding: 28px 32px; }
+    .payment-step-indicator {
+      display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+    }
+    .pay-step {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .pay-step-num {
+      width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 600; color: var(--muted);
+    }
+    .pay-step.active .pay-step-num { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .pay-step.done .pay-step-num { background: var(--mint); border-color: var(--mint); color: #fff; }
+    .pay-step-label { color: var(--muted); }
+    .pay-step.active .pay-step-label { color: var(--text); }
+    .pay-step-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; }
+
+    /* Payment form fields */
+    .pay-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .pay-field label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-lt); }
+    .pay-field input {
+      background: rgba(35,53,64,0.9); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+      padding: 11px 14px; outline: none; transition: border-color 0.25s; width: 100%;
+    }
+    .pay-field input:focus { border-color: var(--teal); }
+    .pay-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stripe-note {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.68rem; color: var(--muted); margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .stripe-note svg { flex-shrink: 0; }
+    .btn-pay {
+      width: 100%; margin-top: 18px; padding: 15px; background: var(--teal);
+      border: none; color: #fff; font-family: 'Barlow', sans-serif;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.25s; position: relative; overflow: hidden;
+    }
+    .btn-pay:hover { background: var(--teal-lt); }
+    .btn-pay-cancel {
+      width: 100%; margin-top: 10px; padding: 11px; background: none;
+      border: 1px solid var(--border); color: var(--muted); font-family: 'Barlow', sans-serif;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.25s;
+    }
+    .btn-pay-cancel:hover { border-color: var(--muted); color: var(--text); }
+
+    /* Booking locked banner */
+    .booking-plan-banner {
+      display: none; background: rgba(74,144,164,0.1); border: 1px solid var(--teal);
+      padding: 16px 22px; margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .booking-plan-banner.hidden { display: none !important; }
+    .booking-plan-info { display: flex; flex-direction: column; gap: 3px; }
+    .booking-plan-info strong { font-size: 0.85rem; color: #fff; }
+    .booking-plan-info span { font-size: 0.72rem; color: var(--teal-lt); }
+    .btn-change-plan {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 5px 12px; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Barlow', sans-serif;
+    }
+    .btn-change-plan:hover { border-color: var(--teal); color: var(--teal-lt); }
+
+    /* Grouped client cards in admin */
+    .client-group {
+      background: rgba(35,53,64,0.6); border: 1px solid var(--border);
+      margin-bottom: 12px; overflow: hidden;
+    }
+    .client-group-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; cursor: pointer; transition: background 0.2s;
+      background: rgba(53,85,98,0.4);
+    }
+    .client-group-header:hover { background: rgba(74,144,164,0.1); }
+    .client-group-info { display: flex; flex-direction: column; gap: 3px; }
+    .client-group-name { font-size: 0.88rem; font-weight: 500; color: #fff; }
+    .client-group-meta { font-size: 0.7rem; color: var(--muted); }
+    .client-group-right { display: flex; align-items: center; gap: 12px; }
+    .client-group-count {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+      color: var(--teal-lt); background: rgba(74,144,164,0.15);
+      border: 1px solid rgba(74,144,164,0.3); padding: 3px 10px;
+    }
+    .client-group-toggle { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+    .client-group.open .client-group-toggle { transform: rotate(180deg); }
+    .client-group-bookings { display: none; border-top: 1px solid var(--border); }
+    .client-group.open .client-group-bookings { display: block; }
+    .client-booking-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.78rem;
+    }
+    .client-booking-row:last-child { border-bottom: none; }
+    .client-booking-detail { display: flex; flex-direction: column; gap: 3px; }
+    .client-booking-time { color: var(--teal-lt); font-size: 0.72rem; }
+    .client-booking-service { color: var(--muted); font-size: 0.7rem; }
+    .client-booking-plan { color: var(--mint); font-size: 0.68rem; letter-spacing: 0.08em; }
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(10,18,22,0.85);
+      z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #233540; border: 1px solid var(--border);
+      padding: 48px 40px; max-width: 420px; width: 90%;
+      position: relative; animation: popIn 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    @keyframes popIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+    .modal-icon { font-size: 2rem; margin-bottom: 16px; }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 600; color: #fff; margin-bottom: 12px; }
+    .modal-body { font-size: 0.87rem; line-height: 1.8; color: var(--muted); margin-bottom: 28px; }
+    .modal-body strong { color: var(--teal-lt); }
+    .modal-close {
+      background: var(--teal); border: none; color: #fff; padding: 12px 32px;
+      font-family: 'Barlow', sans-serif; font-size: 0.75rem; letter-spacing: 0.16em;
+      text-transform: uppercase; cursor: pointer; transition: background 0.25s;
+    }
+    .modal-close:hover { background: var(--teal-lt); }
+
+    /* ── ADMIN PANEL ── */
+    #admin-section {
+      background: rgba(28,44,54,0.85); border-top: 1px solid var(--border);
+      display: none;
+    }
+    #admin-section.open { display: block; }
+
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 36px;
+    }
+    .admin-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: #fff; }
+    .admin-title span { color: var(--teal-lt); }
+
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+
+    .admin-card { background: var(--surface); border: 1px solid var(--border); padding: 28px; }
+    .admin-card-title {
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--teal-lt); margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .booking-list { display: flex; flex-direction: column; gap: 12px; max-height: 360px; overflow-y: auto; }
+    .booking-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; background: rgba(35,53,64,0.8); border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .booking-item-info { display: flex; flex-direction: column; gap: 3px; }
+    .booking-item-name { color: var(--text); font-weight: 400; }
+    .booking-item-time { color: var(--teal-lt); font-size: 0.72rem; letter-spacing: 0.08em; }
+    .booking-item-email { color: var(--muted); font-size: 0.7rem; }
+    .booking-item-service { font-size: 0.72rem; color: var(--teal-lt); margin-top: 2px; }
+
+    .admin-cal-row { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+    .admin-cal-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .admin-slot-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border: 1px solid var(--border); margin-bottom: 8px;
+      font-size: 0.8rem; background: rgba(35,53,64,0.6);
+    }
+    .admin-slot-time { color: var(--teal-lt); font-weight: 500; min-width: 80px; }
+    .admin-slot-info { flex: 1; padding: 0 14px; color: var(--text); font-size: 0.78rem; }
+    .admin-slot-info small { display: block; color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
+    .admin-slot-empty { color: var(--muted); font-size: 0.75rem; font-style: italic; }
+    .admin-slot-blocked { color: var(--red); font-size: 0.75rem; }
+    .btn-slot-block {
+      background: none; border: 1px solid rgba(201,112,112,0.3); color: var(--red);
+      padding: 4px 10px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Barlow', sans-serif;
+    }
+    .btn-slot-block:hover { background: rgba(201,112,112,0.1); }
+    .btn-slot-unblock {
+      background: none; border: 1px solid rgba(123,188,178,0.3); color: var(--teal-lt);
+      padding: 4px 10px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Barlow', sans-serif;
+    }
+    .btn-slot-unblock:hover { background: rgba(74,144,164,0.1); }
+    .btn-day-block-all {
+      margin-top: 16px; width: 100%; padding: 11px; background: none;
+      border: 1px solid rgba(201,112,112,0.35); color: var(--red);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.25s; font-family: 'Barlow', sans-serif;
+    }
+    .btn-day-block-all:hover { background: rgba(201,112,112,0.1); }
+    .btn-day-unblock-all {
+      margin-top: 16px; width: 100%; padding: 11px; background: none;
+      border: 1px solid rgba(123,188,178,0.35); color: var(--teal-lt);
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.25s; font-family: 'Barlow', sans-serif;
+    }
+    .btn-day-unblock-all:hover { background: rgba(74,144,164,0.1); }
+    .btn-cancel-booking {
+      background: none; border: 1px solid rgba(201,112,112,0.3); color: var(--red);
+      padding: 5px 12px; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-cancel-booking:hover { background: rgba(201,112,112,0.1); }
+
+    .empty-state { font-size: 0.82rem; color: var(--muted); text-align: center; padding: 28px 0; opacity: 0.7; }
+
+    /* Block time form */
+    .block-form { display: flex; flex-direction: column; gap: 14px; }
+    .block-form label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-lt); margin-bottom: 4px; display: block; }
+    .block-form input, .block-form select {
+      width: 100%; background: rgba(30,42,48,0.8); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.85rem;
+      padding: 10px 14px; outline: none; transition: border-color 0.25s;
+    }
+    .block-form input:focus, .block-form select:focus { border-color: var(--teal); }
+    .block-form select option { background: #1e2a30; }
+
+    .blocked-list { display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; margin-top: 20px; }
+    .blocked-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; background: rgba(201,112,112,0.07); border: 1px solid rgba(201,112,112,0.2);
+      font-size: 0.78rem; color: var(--text);
+    }
+    .btn-unblock {
+      background: none; border: none; color: var(--red); font-size: 1rem; cursor: pointer;
+      line-height: 1; padding: 0 4px; transition: opacity 0.2s;
+    }
+    .btn-unblock:hover { opacity: 0.7; }
+
+    .btn-block {
+      background: var(--charcoal); border: 1px solid var(--border); color: var(--text);
+      padding: 11px 24px; font-family: 'Barlow', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+    }
+    .btn-block:hover { border-color: var(--teal); color: var(--teal-lt); }
+
+    /* Login overlay */
+    .admin-login {
+      display: flex; flex-direction: column; gap: 16px;
+      max-width: 360px; margin: 0 auto; padding: 60px 0; align-items: center; text-align: center;
+    }
+    .admin-login-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: #fff; }
+    .admin-login-sub { font-size: 0.82rem; color: var(--muted); }
+    .admin-login input {
+      width: 100%; background: rgba(30,42,48,0.8); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+      padding: 12px 16px; outline: none; transition: border-color 0.25s; text-align: center;
+      letter-spacing: 0.2em;
+    }
+    .admin-login input:focus { border-color: var(--teal); }
+    .admin-login-error { font-size: 0.75rem; color: var(--red); min-height: 18px; }
+
+    /* Meeting platform styles */
+    .meeting-platform-select {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 18px;
+    }
+    .platform-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 14px 10px; border: 1px solid var(--border); background: none;
+      cursor: pointer; transition: all 0.2s; font-family: 'Barlow', sans-serif;
+    }
+    .platform-btn:hover { border-color: var(--teal); background: rgba(74,144,164,0.08); }
+    .platform-btn.active { border-color: var(--teal); background: rgba(74,144,164,0.15); }
+    .platform-btn .platform-icon { font-size: 1.4rem; }
+    .platform-btn .platform-name { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .platform-btn.active .platform-name { color: var(--teal-lt); }
+    .meeting-link-field { display: none; }
+    .meeting-link-field.visible { display: flex; flex-direction: column; gap: 6px; }
+    .meeting-saved-badge {
+      display: none; font-size: 0.68rem; color: var(--mint); letter-spacing: 0.1em;
+      padding: 6px 0; align-items: center; gap: 6px;
+    }
+    .meeting-saved-badge.show { display: flex; }
+
+    /* Meeting link in booking confirmation */
+    .meeting-join-box {
+      margin-top: 18px; padding: 16px 18px;
+      background: rgba(74,144,164,0.1); border: 1px solid var(--teal);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .meeting-join-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-lt); }
+    .meeting-join-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; color: #fff; text-decoration: none; word-break: break-all;
+      transition: color 0.2s;
+    }
+    .meeting-join-link:hover { color: var(--teal-lt); }
+    .meeting-platform-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 3px 10px; border: 1px solid var(--teal); color: var(--teal-lt);
+      background: rgba(74,144,164,0.1); align-self: flex-start;
+    }
+      padding: 24px 60px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    footer p { font-size: 0.65rem; letter-spacing: 0.12em; color: #4d6e7c; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #4d6e7c; text-decoration: none; transition: color 0.25s; cursor: pointer;
+    }
+    .footer-links a:hover { color: var(--teal-lt); }
+
+    /* Misc utils */
+    .tag-pill {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 3px 10px;
+      border: 1px solid var(--border); color: var(--muted); border-radius: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .top-bar { padding: 8px 16px; flex-wrap: wrap; gap: 8px; top: 0; }
+      .top-bar-contact { gap: 14px; }
+      .top-bar-contact a { font-size: 0.65rem; }
+      nav { padding: 18px 24px; top: 52px; }
+      .nav-links { display: none; }
+      .hero { flex-direction: column; padding: 60px 24px; min-height: auto; gap: 48px; }
+      .hero-right { flex: none; width: 100%; }
+      .stats { gap: 24px; }
+      .section { padding: 60px 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .free-consult-banner { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+      .process-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+      .process-grid::before { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .booking-grid { grid-template-columns: 1fr; gap: 36px; }
+      .admin-grid { grid-template-columns: 1fr; gap: 28px; }
+      .slots-grid { grid-template-columns: repeat(2,1fr); }
+      footer { padding: 20px 24px; flex-direction: column; gap: 12px; }
+      .divider { margin: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ONBOARDING PROGRESS BAR -->
+<div class="onboard-progress" id="onboardProgress" style="width:33%"></div>
+
+<!-- ONBOARDING OVERLAY -->
+<div class="onboard-overlay" id="onboardOverlay">
+  <div class="onboard-box">
+
+    <!-- Logo -->
+    <div class="onboard-logo">
+      <div class="onboard-logo-mark"></div>
+      <span class="onboard-logo-text">Riqueza Consultancy</span>
+    </div>
+
+    <!-- Step 1: Name -->
+    <div class="onboard-step active" id="onboardStep1">
+      <div class="onboard-step-counter">
+        <div class="onboard-dots">
+          <div class="onboard-dot active" id="dot1"></div>
+          <div class="onboard-dot" id="dot2"></div>
+          <div class="onboard-dot" id="dot3"></div>
+        </div>
+        Step 1 of 3
+      </div>
+      <h2 class="onboard-question">What's your <em>name?</em></h2>
+      <input class="onboard-input" type="text" id="onboardName" placeholder="First &amp; Last Name" onkeydown="if(event.key==='Enter')onboardNext(1)"/>
+      <button class="onboard-next" onclick="onboardNext(1)">
+        Next
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Step 2: Contact -->
+    <div class="onboard-step" id="onboardStep2">
+      <div class="onboard-step-counter">
+        <div class="onboard-dots">
+          <div class="onboard-dot done"></div>
+          <div class="onboard-dot active"></div>
+          <div class="onboard-dot"></div>
+        </div>
+        Step 2 of 3
+      </div>
+      <h2 class="onboard-question">How can we <em>reach you?</em></h2>
+      <input class="onboard-input" type="email" id="onboardEmail" placeholder="Email Address" style="margin-bottom:20px;" oninput="clearInputError('onboardEmail')"/>
+      <input class="onboard-input" type="tel" id="onboardPhone" placeholder="Phone Number" oninput="clearInputError('onboardPhone')" onkeydown="if(event.key==='Enter')onboardNext(2)"/>
+      <button class="onboard-next" onclick="onboardNext(2)">
+        Next
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Step 3: Zip Code -->
+    <div class="onboard-step" id="onboardStep3">
+      <div class="onboard-step-counter">
+        <div class="onboard-dots">
+          <div class="onboard-dot done"></div>
+          <div class="onboard-dot done"></div>
+          <div class="onboard-dot active"></div>
+        </div>
+        Step 3 of 3
+      </div>
+      <h2 class="onboard-question">What's your <em>zip code?</em></h2>
+      <input class="onboard-input" type="text" id="onboardZip" placeholder="e.g. 20001" maxlength="10" onkeydown="if(event.key==='Enter')onboardFinish()"/>
+      <button class="onboard-finish" onclick="onboardFinish()">
+        Enter Site
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOP CONTACT BAR -->
+<div class="top-bar">
+  <div class="top-bar-contact">
+    <span class="contact-info-label">Contact Info</span>
+    <a href="tel:7032038497">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.948.684l1.2 3.6a1 1 0 01-.274 1.05l-1.5 1.5a16 16 0 006.514 6.514l1.5-1.5a1 1 0 011.05-.274l3.6 1.2A1 1 0 0121 18.72V21a2 2 0 01-2 2A17 17 0 013 5z"/></svg>
+      (703) 203-8497
+    </a>
+    <a href="mailto:hirakhalidrj39@gmail.com">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      hirakhalidrj39@gmail.com
+    </a>
+  </div>
+  <button class="admin-top-btn" onclick="toggleAdmin()">&#9881; Riqueza Portal</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark"></div>
+    <span class="logo-text">Riqueza Consultancy</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#booking">Book a Call</a></li>
+    <li><a href="#">Research</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Elite Stock & Wealth Consultancy</span>
+    </div>
+    <h1>
+      <strong>Where Wealth</strong><br>
+      Meets<br>
+      <span>True Expertise.</span>
+    </h1>
+    <p class="hero-desc">
+      Riqueza Consultancy delivers fiduciary-grade stock market guidance
+      — from equity analysis and portfolio construction to long-term growth
+      strategies and risk management. We help individual investors navigate
+      markets with clarity and confidence.
+    </p>
+    <div class="cta-group">
+      <a class="btn-primary" onclick="bookFreeConsult()" style="cursor:pointer; text-decoration:none;">
+        <span>Book a Consultation</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-ghost" href="#services">Our Services</a>
+    </div>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-value">$2.8B</span>
+        <span class="stat-label">Advised AUM</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">+14.2%</span>
+        <span class="stat-label">Avg. Annual Return</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">1,400+</span>
+        <span class="stat-label">Clients</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+
+    <!-- API Key notice (hidden once key is set) -->
+    <div id="apiKeyNotice" style="background:rgba(201,169,70,0.1);border:1px solid rgba(201,169,70,0.3);padding:14px 16px;margin-bottom:14px;font-size:0.72rem;color:#d4b86a;line-height:1.7;display:none;">
+      ⚠ Add your free Finnhub API key below to enable live data.<br>
+      <a href="https://finnhub.io/register" target="_blank" style="color:#d4b86a;text-decoration:underline;">Get free key at finnhub.io →</a>
+    </div>
+
+    <!-- S&P 500 -->
+    <div class="panel-card">
+      <p class="panel-label">S&amp;P 500 &nbsp;<span id="spyTimestamp" style="font-size:0.58rem;color:var(--muted);letter-spacing:0.06em;"></span></p>
+      <p class="panel-value" id="spyPrice">
+        <span class="live-skeleton">Loading…</span>
+      </p>
+      <p class="panel-sub" id="spyOpen">Fetching market data…</p>
+      <span id="spyChange" class="badge-up" style="display:none;"></span>
+    </div>
+
+    <!-- NVIDIA (Semiconductors) -->
+    <div class="panel-card">
+      <p class="panel-label">NVIDIA &nbsp;<span style="font-size:0.58rem;color:var(--muted);">NVDA · Semiconductors</span></p>
+      <p class="panel-value" id="nvdaPrice">
+        <span class="live-skeleton">Loading…</span>
+      </p>
+      <p class="panel-sub" id="nvdaOpen">Fetching market data…</p>
+      <span id="nvdaChange" class="badge-up" style="display:none;"></span>
+    </div>
+
+    <!-- VIX Fear Index -->
+    <div class="panel-card">
+      <p class="panel-label">QQQ &nbsp;<span style="font-size:0.58rem;color:var(--muted);">Nasdaq 100 ETF</span></p>
+      <p class="panel-value" id="vixPrice">
+        <span class="live-skeleton">Loading…</span>
+      </p>
+      <p class="panel-sub" id="vixLevel">Fetching market data…</p>
+      <span id="vixChange" class="badge-dn" style="display:none;"></span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+
+  <!-- Section header -->
+  <div class="section-label"><span>What We Do</span></div>
+  <h2 class="section-title">Expert Guidance for <em>Every Stage</em><br>of Your Wealth Journey</h2>
+
+  <!-- 6 Service Cards -->
+  <div class="services-grid">
+    <div class="service-card" onclick="bookService('Financial Health Assessment')">
+      <div class="service-icon">🩺</div>
+      <h3 class="service-title">Financial Health Assessment</h3>
+      <p class="service-desc">A comprehensive diagnosis of your complete financial picture — identifying strengths, gaps, and immediate opportunities for improvement.</p>
+      <ul class="service-bullets">
+        <li>Full income & expense audit</li>
+        <li>Debt-to-income ratio analysis</li>
+        <li>Credit & liquidity evaluation</li>
+        <li>Personalized financial health score</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+    <div class="service-card" onclick="bookService('Financial Consultancy')">
+      <div class="service-icon">💼</div>
+      <h3 class="service-title">Financial Consultancy</h3>
+      <p class="service-desc">Expert, one-on-one strategic counsel tailored to your unique financial situation — objective, fiduciary, and entirely in your corner.</p>
+      <ul class="service-bullets">
+        <li>Private advisory sessions</li>
+        <li>Short & long-term goal alignment</li>
+        <li>Major financial decision support</li>
+        <li>Ongoing strategic accountability</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+    <div class="service-card" onclick="bookService('Custom Financial Planning')">
+      <div class="service-icon">📋</div>
+      <h3 class="service-title">Custom Financial Planning</h3>
+      <p class="service-desc">A detailed, living roadmap built around your life goals — from buying a home to retiring early. Your plan evolves as your life does.</p>
+      <ul class="service-bullets">
+        <li>5, 10 & 20-year financial roadmaps</li>
+        <li>Milestone-based action plans</li>
+        <li>Cash flow & savings projections</li>
+        <li>Annual plan reviews & updates</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+    <div class="service-card" onclick="bookService('Budgeting & Spending Strategy')">
+      <div class="service-icon">💰</div>
+      <h3 class="service-title">Budgeting & Spending Strategy</h3>
+      <p class="service-desc">Practical, intelligent budgeting guidance that puts you firmly in control of your money — without sacrificing the life you want to live.</p>
+      <ul class="service-bullets">
+        <li>Zero-based & 50/30/20 frameworks</li>
+        <li>Discretionary spending optimization</li>
+        <li>Emergency fund strategy</li>
+        <li>Debt elimination roadmap</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+    <div class="service-card" onclick="bookService('Wealth Management & Investments')">
+      <div class="service-icon">📈</div>
+      <h3 class="service-title">Wealth Management & Investments</h3>
+      <p class="service-desc">Sophisticated, growth-focused investment strategy and ongoing portfolio oversight — designed to build and protect generational wealth.</p>
+      <ul class="service-bullets">
+        <li>Stock, ETF & fund selection</li>
+        <li>Portfolio construction & rebalancing</li>
+        <li>Risk-adjusted return optimization</li>
+        <li>Tax-efficient investing strategies</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+    <div class="service-card" onclick="bookService('Estate & Legacy Planning')">
+      <div class="service-icon">🏛️</div>
+      <h3 class="service-title">Estate & Legacy Planning</h3>
+      <p class="service-desc">Ensure your wealth is protected, distributed according to your wishes, and leaves the legacy you intend — for the people who matter most.</p>
+      <ul class="service-bullets">
+        <li>Will & trust strategy guidance</li>
+        <li>Beneficiary designation review</li>
+        <li>Inheritance & gifting planning</li>
+        <li>Wealth transfer tax minimization</li>
+      </ul>
+      <button class="btn-book-service">Book This Service →</button>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <div style="margin-top:80px;">
+    <div class="section-label"><span>How It Works</span></div>
+    <h2 class="section-title">Your Path to <em>Smarter Investing</em><br>Starts in 4 Steps</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <p class="process-step-title">Book a Call</p>
+        <p class="process-step-desc">Schedule your consultation below. Choose a date and time that works for your schedule.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <p class="process-step-title">Portfolio Review</p>
+        <p class="process-step-desc">We audit your current holdings, goals, and risk tolerance to understand exactly where you stand.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <p class="process-step-title">Custom Strategy</p>
+        <p class="process-step-desc">We build a tailored investment strategy with specific recommendations, targets, and timelines.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <p class="process-step-title">Ongoing Support</p>
+        <p class="process-step-desc">We stay with you — monitoring markets, adjusting strategy, and keeping your portfolio on track.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Selection -->
+  <div style="margin-top:80px;">
+    <div class="section-label"><span>Our Plans</span></div>
+    <h2 class="section-title">Choose Your <em>Service</em><br>& Book a Session</h2>
+
+    <!-- Free Consultation Banner -->
+    <div class="free-consult-banner">
+      <div class="free-consult-left">
+        <span class="free-consult-badge">✦ Complimentary</span>
+        <h3 class="free-consult-title">Initial Consultation — Always Free</h3>
+        <p class="free-consult-desc">Every new client starts with a no-obligation introductory session. We get to know your goals, answer your questions, and find the right path forward — together. No pressure. No cost.</p>
+      </div>
+      <a class="btn-primary" onclick="bookFreeConsult()" style="flex-shrink:0; border:none; cursor:pointer; text-decoration:none;">
+        <span>Book Your Free Call</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Service Cards -->
+  </div>
+
+</section>
+
+<hr class="divider"/>
+
+<!-- PAYMENT MODAL -->
+<div class="payment-modal-overlay" id="paymentModal">
+  <div class="payment-modal">
+    <div class="payment-modal-head">
+      <p class="payment-plan-badge" id="payModalBadge"></p>
+      <p class="payment-plan-name" id="payModalName"></p>
+      <p class="payment-plan-price" id="payModalPrice"></p>
+    </div>
+    <div class="payment-modal-body">
+      <div class="payment-step-indicator">
+        <div class="pay-step active" id="payStep1">
+          <div class="pay-step-num">1</div>
+          <span class="pay-step-label">Your Details</span>
+        </div>
+        <div class="pay-step-line"></div>
+        <div class="pay-step" id="payStep2">
+          <div class="pay-step-num">2</div>
+          <span class="pay-step-label">Payment</span>
+        </div>
+        <div class="pay-step-line"></div>
+        <div class="pay-step" id="payStep3">
+          <div class="pay-step-num">3</div>
+          <span class="pay-step-label">Book Date</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Details -->
+      <div id="payStepDetails">
+        <div class="pay-field">
+          <label>Full Name</label>
+          <input type="text" id="payName" placeholder="Jane Smith"/>
+        </div>
+        <div class="pay-field">
+          <label>Email Address</label>
+          <input type="email" id="payEmail" placeholder="jane@example.com"/>
+        </div>
+        <button class="btn-pay" onclick="goToPayment()">Continue to Payment →</button>
+        <button class="btn-pay-cancel" onclick="closePayment()">Cancel</button>
+      </div>
+
+      <!-- Step 2: Payment -->
+      <div id="payStepPayment" style="display:none;">
+        <div class="pay-field">
+          <label>Card Number</label>
+          <input type="text" id="payCard" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"/>
+        </div>
+        <div class="pay-row">
+          <div class="pay-field">
+            <label>Expiry</label>
+            <input type="text" id="payExpiry" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"/>
+          </div>
+          <div class="pay-field">
+            <label>CVC</label>
+            <input type="text" id="payCVC" placeholder="123" maxlength="4"/>
+          </div>
+        </div>
+        <div class="pay-field">
+          <label>Name on Card</label>
+          <input type="text" id="payCardName" placeholder="Jane Smith"/>
+        </div>
+        <div class="stripe-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Payments are processed securely. Card details are never stored.
+        </div>
+        <button class="btn-pay" onclick="processPayment()">Pay & Confirm Plan →</button>
+        <button class="btn-pay-cancel" onclick="backToDetails()">← Back</button>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div id="payStepSuccess" style="display:none; text-align:center; padding: 10px 0;">
+        <div style="font-size:2.5rem; margin-bottom:14px;">✅</div>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:#fff; margin-bottom:10px;">Payment Confirmed!</p>
+        <p style="font-size:0.83rem; color:var(--muted); line-height:1.8; margin-bottom:24px;">Your <strong id="paySuccessPlan" style="color:var(--teal-lt)"></strong> plan is active. Now choose your first session date below.</p>
+        <button class="btn-pay" onclick="goToBooking()">Choose Your Date →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<section id="booking" class="section">
+  <div class="section-label"><span>Schedule a Call</span></div>
+  <h2 class="section-title">Book Your <em>Consultation</em></h2>
+
+  <!-- Active plan banner (shown after payment) -->
+  <div class="booking-plan-banner hidden" id="bookingPlanBanner">
+    <div class="booking-plan-info">
+      <strong id="bannerPlanName"></strong>
+      <span id="bannerPlanPrice"></span>
+    </div>
+    <button class="btn-change-plan" onclick="changePlan()">Change Plan</button>
+  </div>
+
+  <!-- Locked overlay (shown before payment) -->
+  <div id="bookingLockedMsg" style="background:rgba(35,53,64,0.7);border:1px solid var(--border);padding:40px;text-align:center;margin-bottom:32px;">
+    <p style="font-size:1.1rem;color:var(--muted);margin-bottom:16px;">🔒 Please select a plan above to unlock booking.</p>
+    <a href="#services" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal-lt);text-decoration:none;border-bottom:1px solid var(--teal-lt);padding-bottom:2px;">View Our Plans →</a>
+  </div>
+
+  <div id="bookingCalendarWrap" style="display:none;">
+  <div class="booking-grid">
+    <!-- Calendar -->
+    <div>
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <button class="cal-nav" id="prevMonth">&#8249;</button>
+          <span class="cal-title" id="calTitle"></span>
+          <button class="cal-nav" id="nextMonth">&#8250;</button>
+        </div>
+        <div class="cal-days-header">
+          <div class="cal-day-name">Su</div><div class="cal-day-name">Mo</div>
+          <div class="cal-day-name">Tu</div><div class="cal-day-name">We</div>
+          <div class="cal-day-name">Th</div><div class="cal-day-name">Fr</div>
+          <div class="cal-day-name">Sa</div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <!-- Slots + Form -->
+    <div class="slots-wrap">
+      <div>
+        <p class="slots-title" id="slotsTitle">Select a Date</p>
+        <p class="slots-sub" id="slotsSub">Choose an available day on the calendar to see open times.</p>
+      </div>
+
+      <div id="slotsArea">
+        <p class="no-date-msg">← Pick a date to see available slots</p>
+      </div>
+
+      <div id="bookingFormWrap" style="display:none;">
+        <div class="booking-form">
+          <div class="form-field">
+            <label>Full Name</label>
+            <input type="text" id="bookName" placeholder="Jane Smith"/>
+          </div>
+          <div class="form-field">
+            <label>Email Address</label>
+            <input type="email" id="bookEmail" placeholder="jane@example.com"/>
+          </div>
+          <div class="form-field">
+            <label>Service</label>
+            <select id="bookService" style="background:rgba(35,53,64,0.85);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.85rem;padding:11px 14px;outline:none;transition:border-color 0.25s;width:100%;">
+              <option value="">— Select a Service —</option>
+              <option value="Financial Health Assessment">Financial Health Assessment</option>
+              <option value="Financial Consultancy">Financial Consultancy</option>
+              <option value="Custom Financial Planning">Custom Financial Planning</option>
+              <option value="Budgeting & Spending Strategy">Budgeting & Spending Strategy</option>
+              <option value="Wealth Management & Investments">Wealth Management & Investments</option>
+              <option value="Estate & Legacy Planning">Estate & Legacy Planning</option>
+            </select>
+          </div>
+          <input type="hidden" id="bookPlan"/>
+          <button class="btn-primary" onclick="submitBooking()" style="align-self:flex-start; border:none; cursor:pointer;">
+            <span>Confirm Booking</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- end bookingCalendarWrap -->
+</section>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h3 class="modal-title">You're Booked!</h3>
+    <p class="modal-body" id="modalBody"></p>
+    <div id="meetingLinkBox"></div>
+    <button class="modal-close" onclick="closeModal()" style="margin-top:18px;">Done</button>
+  </div>
+</div>
+
+<!-- ADMIN SECTION -->
+<section id="admin-section" class="section">
+  <!-- Login wall -->
+  <div id="adminLoginWall">
+    <div class="admin-login">
+      <h2 class="admin-login-title">Riqueza Portal</h2>
+      <p class="admin-login-sub">Enter your admin password to manage bookings and availability.</p>
+      <input type="password" id="adminPassInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdminPass()"/>
+      <p class="admin-login-error" id="adminPassError"></p>
+      <button class="btn-primary" onclick="checkAdminPass()" style="border:none; cursor:pointer;">
+        <span>Enter Portal</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Admin dashboard (hidden until logged in) -->
+  <div id="adminDashboard" style="display:none;">
+    <div class="admin-header">
+      <h2 class="admin-title">Riqueza <span>Portal</span></h2>
+      <button class="btn-block" onclick="adminLogout()">Log Out</button>
+    </div>
+
+    <!-- Row 1: Calendar + Day Detail -->
+    <div class="admin-cal-row">
+
+      <!-- Admin Calendar -->
+      <div class="admin-card" style="flex:0 0 340px;">
+        <p class="admin-card-title">📅 &nbsp;Availability Calendar</p>
+        <p style="font-size:0.72rem;color:var(--muted);margin-bottom:16px;">Click any date to view or block slots.</p>
+        <div class="calendar-wrap" style="padding:20px;">
+          <div class="cal-header">
+            <button class="cal-nav" id="adminPrevMonth">&#8249;</button>
+            <span class="cal-title" id="adminCalTitle"></span>
+            <button class="cal-nav" id="adminNextMonth">&#8250;</button>
+          </div>
+          <div class="cal-days-header">
+            <div class="cal-day-name">Su</div><div class="cal-day-name">Mo</div>
+            <div class="cal-day-name">Tu</div><div class="cal-day-name">We</div>
+            <div class="cal-day-name">Th</div><div class="cal-day-name">Fr</div>
+            <div class="cal-day-name">Sa</div>
+          </div>
+          <div class="cal-grid" id="adminCalGrid"></div>
+        </div>
+        <div class="admin-cal-legend">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--mint)"></span>Has bookings</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--red)"></span>Blocked / Full</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--teal)"></span>Selected</span>
+        </div>
+      </div>
+
+      <!-- Day Detail Panel -->
+      <div class="admin-card" style="flex:1;">
+        <p class="admin-card-title" id="adminDayTitle">🕐 &nbsp;Select a Date to Manage</p>
+        <div id="adminDayPanel">
+          <p class="empty-state">← Click a date on the calendar to view and manage its time slots.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Meeting Settings + Booking list -->
+    <div class="admin-grid" style="margin-top:28px;">
+
+      <!-- Meeting Settings -->
+      <div class="admin-card">
+        <p class="admin-card-title">🎥 &nbsp;Meeting Platform Settings</p>
+        <p style="font-size:0.75rem;color:var(--muted);margin-bottom:16px;">Choose your platform and paste your meeting link. Every new booking will include this link automatically.</p>
+
+        <div class="meeting-platform-select">
+          <button class="platform-btn" id="platformZoom" onclick="selectPlatform('zoom')">
+            <span class="platform-icon">💻</span>
+            <span class="platform-name">Zoom</span>
+          </button>
+          <button class="platform-btn" id="platformTeams" onclick="selectPlatform('teams')">
+            <span class="platform-icon">🟦</span>
+            <span class="platform-name">Teams</span>
+          </button>
+          <button class="platform-btn" id="platformOther" onclick="selectPlatform('other')">
+            <span class="platform-icon">🔗</span>
+            <span class="platform-name">Other</span>
+          </button>
+        </div>
+
+        <div class="meeting-link-field" id="meetingLinkField">
+          <label style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal-lt);">Your Meeting Link</label>
+          <input type="url" id="meetingLinkInput"
+            style="background:rgba(35,53,64,0.85);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.85rem;padding:11px 14px;outline:none;transition:border-color 0.25s;width:100%;"
+            placeholder="https://zoom.us/j/your-meeting-id"
+            oninput="saveMeetingLink()"/>
+          <div class="meeting-saved-badge" id="meetingSavedBadge">✓ Link saved — will appear in all new booking confirmations</div>
+        </div>
+      </div>
+
+      <!-- Booking list -->
+      <div class="admin-card">
+        <p class="admin-card-title">📋 &nbsp;All Upcoming Bookings</p>
+        <div class="booking-list" id="adminBookingList"></div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Riqueza Consultancy. All rights reserved. Advisory services for informational purposes only.</p>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+  /* ── DATA STORE (localStorage) ── */
+  const BOOKINGS_KEY = 'mwa_bookings';
+  const BLOCKED_KEY  = 'mwa_blocked';
+  const ADMIN_PASS   = '5961';
+
+  function getBookings() {
+    try { return JSON.parse(localStorage.getItem(BOOKINGS_KEY)) || []; } catch { return []; }
+  }
+  function saveBookings(b) { localStorage.setItem(BOOKINGS_KEY, JSON.stringify(b)); }
+
+  function getBlocked() {
+    try { return JSON.parse(localStorage.getItem(BLOCKED_KEY)) || []; } catch { return []; }
+  }
+  function saveBlocked(b) { localStorage.setItem(BLOCKED_KEY, JSON.stringify(b)); }
+
+  /* ── CALENDAR STATE ── */
+  const SLOTS = ['9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM'];
+  let currentYear, currentMonth, selectedDate = null, selectedSlot = null;
+
+  const today = new Date();
+  currentYear  = today.getFullYear();
+  currentMonth = today.getMonth();
+
+  function dateKey(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  function renderCalendar() {
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    document.getElementById('calTitle').textContent = `${months[currentMonth]} ${currentYear}`;
+
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+    const bookings = getBookings();
+    const blocked  = getBlocked();
+
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day empty';
+      grid.appendChild(el);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+
+      const isWeekend = new Date(currentYear, currentMonth, d).getDay() % 6 === 0;
+      const isPast    = new Date(currentYear, currentMonth, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const isToday   = d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+      const key       = dateKey(currentYear, currentMonth, d);
+      const isDayBlocked = blocked.some(b => b.date === key && b.time === 'all');
+      const dayBookings  = bookings.filter(b => b.date === key).map(b => b.time);
+      const dayBlocked   = blocked.filter(b => b.date === key && b.time !== 'all').map(b => b.time);
+      const takenSlots   = new Set([...dayBookings, ...dayBlocked]);
+      const isFullDay    = !isDayBlocked && takenSlots.size >= SLOTS.length;
+      const hasBook      = dayBookings.length > 0;
+      const isSel        = selectedDate === key;
+
+      if (isWeekend) el.classList.add('weekend');
+      else if (isPast) el.classList.add('past');
+      else if (isDayBlocked) el.classList.add('blocked-day');
+      else if (isFullDay) {
+        el.classList.add('full-day');
+        el.title = 'Fully booked';
+      } else {
+        el.addEventListener('click', () => selectDate(key, d));
+        if (isToday) el.classList.add('today');
+        if (hasBook) el.classList.add('has-bookings');
+        if (isSel) el.classList.add('selected');
+      }
+
+      grid.appendChild(el);
+    }
+  }
+
+  function selectDate(key, d) {
+    selectedDate = key;
+    selectedSlot = null;
+    document.getElementById('bookingFormWrap').style.display = 'none';
+    renderCalendar();
+    renderSlots();
+  }
+
+  function renderSlots() {
+    const area = document.getElementById('slotsArea');
+    const titleEl = document.getElementById('slotsTitle');
+    const subEl   = document.getElementById('slotsSub');
+
+    if (!selectedDate) {
+      area.innerHTML = '<p class="no-date-msg">← Pick a date to see available slots</p>';
+      titleEl.textContent = 'Select a Date';
+      subEl.textContent = 'Choose an available day on the calendar to see open times.';
+      return;
+    }
+
+    const parts = selectedDate.split('-');
+    const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
+                    .toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+    titleEl.textContent = disp;
+    subEl.textContent   = 'Select an available time slot below.';
+
+    const bookings = getBookings().filter(b => b.date === selectedDate);
+    const blocked  = getBlocked().filter(b => b.date === selectedDate);
+    const bookedTimes  = bookings.map(b => b.time);
+    const blockedTimes = blocked.filter(b => b.time !== 'all').map(b => b.time);
+
+    area.innerHTML = '<div class="slots-grid" id="slotsGrid"></div>';
+    const grid = document.getElementById('slotsGrid');
+
+    SLOTS.forEach(slot => {
+      const btn = document.createElement('button');
+      btn.className = 'slot-btn';
+      btn.textContent = slot;
+
+      if (bookedTimes.includes(slot)) {
+        btn.disabled = true;
+        btn.title = 'Already booked';
+      } else if (blockedTimes.includes(slot)) {
+        btn.classList.add('blocked-slot');
+        btn.disabled = true;
+        btn.title = 'Unavailable';
+      } else {
+        btn.addEventListener('click', () => selectSlot(slot, btn));
+        if (selectedSlot === slot) btn.classList.add('selected');
+      }
+
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectSlot(slot, btn) {
+    selectedSlot = slot;
+    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('bookingFormWrap').style.display = 'block';
+    document.getElementById('bookingFormWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function submitBooking() {
+    const name    = document.getElementById('bookName').value.trim();
+    const email   = document.getElementById('bookEmail').value.trim();
+    const service = document.getElementById('bookService').value;
+
+    if (!name)  { alert('Please enter your name.'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+    if (!service) { alert('Please select a service.'); return; }
+    if (!selectedDate || !selectedSlot) { alert('Please select a date and time slot.'); return; }
+
+    const plan    = document.getElementById('bookPlan').value || '';
+    const bookings = getBookings();
+    bookings.push({ date: selectedDate, time: selectedSlot, name, email, service, plan, id: Date.now() });
+    saveBookings(bookings);
+
+    const parts = selectedDate.split('-');
+    const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
+                    .toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+
+    document.getElementById('modalBody').innerHTML =
+      `<strong>${name}</strong>, your consultation is confirmed for<br>
+       <strong>${disp}</strong> at <strong>${selectedSlot}</strong>.<br><br>
+       Service: <strong>${service}</strong>`;
+
+    // Inject meeting link if set
+    const mtg = getMeetingSettings();
+    const linkBox = document.getElementById('meetingLinkBox');
+    if (mtg.link) {
+      linkBox.innerHTML = `<div class="meeting-join-box">
+        <span class="meeting-join-label">Join Your Meeting</span>
+        <span class="meeting-platform-pill">${platformLabel(mtg.platform)}</span>
+        <a class="meeting-join-link" href="${mtg.link}" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          ${mtg.link}
+        </a>
+      </div>`;
+    } else {
+      linkBox.innerHTML = '';
+    }
+
+    document.getElementById('confirmModal').classList.add('open');
+    document.getElementById('bookName').value    = '';
+    document.getElementById('bookEmail').value   = '';
+    document.getElementById('bookService').value = '';
+    selectedSlot = null;
+    document.getElementById('bookingFormWrap').style.display = 'none';
+    renderCalendar();
+    renderSlots();
+  }
+
+  function closeModal() {
+    document.getElementById('confirmModal').classList.remove('open');
+  }
+
+  document.getElementById('prevMonth').addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar();
+  });
+
+  document.getElementById('nextMonth').addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendar();
+  });
+
+  /* ── ADMIN CALENDAR ── */
+  let adminCalYear, adminCalMonth, adminSelectedDate = null;
+  adminCalYear  = today.getFullYear();
+  adminCalMonth = today.getMonth();
+
+  function renderAdminCalendar() {
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    document.getElementById('adminCalTitle').textContent = `${months[adminCalMonth]} ${adminCalYear}`;
+    const grid = document.getElementById('adminCalGrid');
+    grid.innerHTML = '';
+
+    const firstDay    = new Date(adminCalYear, adminCalMonth, 1).getDay();
+    const daysInMonth = new Date(adminCalYear, adminCalMonth+1, 0).getDate();
+    const bookings    = getBookings();
+    const blocked     = getBlocked();
+
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day empty';
+      grid.appendChild(el);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const el  = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+      const key = dateKey(adminCalYear, adminCalMonth, d);
+      const isWeekend     = new Date(adminCalYear, adminCalMonth, d).getDay() % 6 === 0;
+      const isDayBlocked  = blocked.some(b => b.date === key && b.time === 'all');
+      const dayBookings   = bookings.filter(b => b.date === key).map(b => b.time);
+      const dayBlocked    = blocked.filter(b => b.date === key && b.time !== 'all').map(b => b.time);
+      const takenSlots    = new Set([...dayBookings, ...dayBlocked]);
+      const isFullDay     = !isDayBlocked && takenSlots.size >= SLOTS.length;
+      const hasBook       = dayBookings.length > 0;
+      const isSel         = adminSelectedDate === key;
+
+      if (isWeekend) { el.classList.add('weekend'); }
+      else if (isDayBlocked || isFullDay) { el.classList.add('full-day'); }
+      else {
+        if (hasBook) el.classList.add('has-bookings');
+        if (isSel)   el.classList.add('selected');
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', () => {
+          adminSelectedDate = key;
+          renderAdminCalendar();
+          renderAdminDayPanel(key);
+        });
+      }
+      if (isSel && !isWeekend && !isDayBlocked && !isFullDay) el.classList.add('selected');
+      grid.appendChild(el);
+    }
+  }
+
+  function renderAdminDayPanel(key) {
+    const parts = key.split('-');
+    const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
+                    .toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+    document.getElementById('adminDayTitle').textContent = `🕐  ${disp}`;
+
+    const bookings    = getBookings().filter(b => b.date === key);
+    const blocked     = getBlocked();
+    const isDayBlocked = blocked.some(b => b.date === key && b.time === 'all');
+    const blockedTimes = blocked.filter(b => b.date === key && b.time !== 'all').map(b => b.time);
+
+    let html = '';
+
+    SLOTS.forEach(slot => {
+      const booking    = bookings.find(b => b.time === slot);
+      const isBlocked  = isDayBlocked || blockedTimes.includes(slot);
+
+      let infoHtml = '';
+      let actionHtml = '';
+
+      if (booking) {
+        infoHtml = `<div class="admin-slot-info">
+          <strong>${booking.name}</strong>
+          <small>✉ ${booking.email}</small>
+          <small>📋 ${booking.service || booking.topic || '—'}</small>
+        </div>`;
+        actionHtml = `<button class="btn-cancel-booking" onclick="cancelBooking(${booking.id});renderAdminDayPanel('${key}')">✕ Remove</button>`;
+      } else if (isBlocked) {
+        infoHtml = `<div class="admin-slot-info"><span class="admin-slot-blocked">Blocked — Unavailable</span></div>`;
+        if (!isDayBlocked) {
+          actionHtml = `<button class="btn-slot-unblock" onclick="adminUnblockSlot('${key}','${slot}')">Unblock</button>`;
+        }
+      } else {
+        infoHtml = `<div class="admin-slot-info"><span class="admin-slot-empty">Available</span></div>`;
+        actionHtml = `<button class="btn-slot-block" onclick="adminBlockSlot('${key}','${slot}')">Block</button>`;
+      }
+
+      html += `<div class="admin-slot-row">
+        <span class="admin-slot-time">${slot}</span>
+        ${infoHtml}
+        ${actionHtml}
+      </div>`;
+    });
+
+    const isFullDayBlocked = isDayBlocked;
+    if (isFullDayBlocked) {
+      html += `<button class="btn-day-unblock-all" onclick="adminUnblockSlot('${key}','all')">✓ Unblock Entire Day</button>`;
+    } else {
+      html += `<button class="btn-day-block-all" onclick="adminBlockSlot('${key}','all')">🚫 Block Entire Day</button>`;
+    }
+
+    document.getElementById('adminDayPanel').innerHTML = html;
+  }
+
+  function adminBlockSlot(date, time) {
+    const blocked = getBlocked();
+    if (blocked.some(b => b.date === date && b.time === time)) return;
+    blocked.push({ date, time });
+    saveBlocked(blocked);
+    renderAdminCalendar();
+    renderAdminDayPanel(date);
+    renderCalendar();
+    renderSlots();
+  }
+
+  function adminUnblockSlot(date, time) {
+    saveBlocked(getBlocked().filter(b => !(b.date === date && b.time === time)));
+    renderAdminCalendar();
+    renderAdminDayPanel(date);
+    renderCalendar();
+    renderSlots();
+  }
+
+  document.getElementById('adminPrevMonth').addEventListener('click', () => {
+    adminCalMonth--;
+    if (adminCalMonth < 0) { adminCalMonth = 11; adminCalYear--; }
+    renderAdminCalendar();
+  });
+  document.getElementById('adminNextMonth').addEventListener('click', () => {
+    adminCalMonth++;
+    if (adminCalMonth > 11) { adminCalMonth = 0; adminCalYear++; }
+    renderAdminCalendar();
+  });
+
+  function bookService(serviceName) {
+    // Pre-select the service in the booking form
+    document.getElementById('bookService').value = serviceName;
+    // Unlock the calendar as a free consult if not already unlocked
+    if (document.getElementById('bookingCalendarWrap').style.display === 'none') {
+      bookFreeConsult();
+    } else {
+      document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+    }
+    // Update the banner to show the selected service
+    document.getElementById('bannerPlanName').textContent  = serviceName;
+    document.getElementById('bannerPlanPrice').textContent = 'Book your session below';
+    document.getElementById('bookingPlanBanner').classList.remove('hidden');
+  }
+
+  function bookFreeConsult() {
+    activePlan = { name: 'Initial Consultation (Free)', price: 'Free', tier: 'Complimentary' };
+    document.getElementById('bookingPlanBanner').classList.remove('hidden');
+    document.getElementById('bannerPlanName').textContent  = '✦ Initial Consultation — Free';
+    document.getElementById('bannerPlanPrice').textContent = 'No payment required';
+    document.getElementById('bookPlan').value = 'Free Consultation';
+    document.getElementById('bookingLockedMsg').style.display   = 'none';
+    document.getElementById('bookingCalendarWrap').style.display = 'block';
+    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* ── PAYMENT FLOW ── */
+  let activePlan = null;
+
+  function openPayment(name, price, tier) {
+    activePlan = { name, price, tier };
+    document.getElementById('payModalBadge').textContent = tier;
+    document.getElementById('payModalName').textContent  = name + ' Plan';
+    document.getElementById('payModalPrice').textContent = price + ' · Billed Monthly';
+    // Reset steps
+    showPayStep('details');
+    document.getElementById('paymentModal').classList.add('open');
+  }
+
+  function closePayment() {
+    document.getElementById('paymentModal').classList.remove('open');
+    activePlan = null;
+  }
+
+  function showPayStep(step) {
+    document.getElementById('payStepDetails').style.display  = step === 'details'  ? 'block' : 'none';
+    document.getElementById('payStepPayment').style.display  = step === 'payment'  ? 'block' : 'none';
+    document.getElementById('payStepSuccess').style.display  = step === 'success'  ? 'block' : 'none';
+    document.getElementById('payStep1').className = 'pay-step' + (step === 'details' ? ' active' : ' done');
+    document.getElementById('payStep2').className = 'pay-step' + (step === 'payment' ? ' active' : step === 'success' ? ' done' : '');
+    document.getElementById('payStep3').className = 'pay-step' + (step === 'success' ? ' active' : '');
+  }
+
+  function goToPayment() {
+    const name  = document.getElementById('payName').value.trim();
+    const email = document.getElementById('payEmail').value.trim();
+    if (!name)  { alert('Please enter your name.'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+    // Pre-fill booking form
+    document.getElementById('bookName').value  = name;
+    document.getElementById('bookEmail').value = email;
+    showPayStep('payment');
+  }
+
+  function backToDetails() { showPayStep('details'); }
+
+  function goToBooking() {
+    document.getElementById('paymentModal').classList.remove('open');
+    // Show plan banner and unlock calendar
+    document.getElementById('bookingPlanBanner').classList.remove('hidden');
+    document.getElementById('bannerPlanName').textContent  = activePlan.name + ' Plan — Active';
+    document.getElementById('bannerPlanPrice').textContent = activePlan.price + ' · Billed Monthly';
+    document.getElementById('bookPlan').value = activePlan.name;
+    document.getElementById('bookingLockedMsg').style.display  = 'none';
+    document.getElementById('bookingCalendarWrap').style.display = 'block';
+    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function changePlan() {
+    document.getElementById('bookingPlanBanner').classList.add('hidden');
+    document.getElementById('bookingLockedMsg').style.display  = 'block';
+    document.getElementById('bookingCalendarWrap').style.display = 'none';
+    activePlan = null;
+    document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function processPayment() {
+    const card     = document.getElementById('payCard').value.replace(/\s/g,'');
+    const expiry   = document.getElementById('payExpiry').value.trim();
+    const cvc      = document.getElementById('payCVC').value.trim();
+    const cardName = document.getElementById('payCardName').value.trim();
+    if (card.length < 16)   { alert('Please enter a valid card number.'); return; }
+    if (!expiry || expiry.length < 5) { alert('Please enter a valid expiry date.'); return; }
+    if (!cvc || cvc.length < 3)       { alert('Please enter a valid CVC.'); return; }
+    if (!cardName)                     { alert('Please enter the name on your card.'); return; }
+    // Simulate processing
+    const btn = document.querySelector('#payStepPayment .btn-pay');
+    btn.textContent = 'Processing…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Pay & Confirm Plan →';
+      btn.disabled = false;
+      document.getElementById('paySuccessPlan').textContent = activePlan.name;
+      showPayStep('success');
+    }, 1800);
+  }
+
+  function formatCard(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,16);
+    el.value = v.replace(/(.{4})/g,'$1 ').trim();
+  }
+
+  function formatExpiry(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+    el.value = v;
+  }
+
+  /* ── MEETING PLATFORM ── */
+  const MEETING_KEY = 'mwa_meeting';
+
+  function getMeetingSettings() {
+    try { return JSON.parse(localStorage.getItem(MEETING_KEY)) || { platform: null, link: '' }; }
+    catch { return { platform: null, link: '' }; }
+  }
+  function saveMeetingSettings(s) { localStorage.setItem(MEETING_KEY, JSON.stringify(s)); }
+
+  function selectPlatform(p) {
+    const settings = getMeetingSettings();
+    settings.platform = p;
+    saveMeetingSettings(settings);
+    ['zoom','teams','other'].forEach(id => {
+      document.getElementById('platform' + id.charAt(0).toUpperCase() + id.slice(1))
+        .classList.toggle('active', id === p);
+    });
+    const field = document.getElementById('meetingLinkField');
+    field.classList.add('visible');
+    const placeholders = {
+      zoom:  'https://zoom.us/j/your-meeting-id',
+      teams: 'https://teams.microsoft.com/l/meetup-join/...',
+      other: 'https://meet.google.com/your-link'
+    };
+    document.getElementById('meetingLinkInput').placeholder = placeholders[p] || '';
+    document.getElementById('meetingLinkInput').value = settings.link || '';
+  }
+
+  function saveMeetingLink() {
+    const link     = document.getElementById('meetingLinkInput').value.trim();
+    const settings = getMeetingSettings();
+    settings.link  = link;
+    saveMeetingSettings(settings);
+    const badge = document.getElementById('meetingSavedBadge');
+    badge.classList.add('show');
+    setTimeout(() => badge.classList.remove('show'), 2500);
+  }
+
+  function loadMeetingSettings() {
+    const s = getMeetingSettings();
+    if (s.platform) {
+      selectPlatform(s.platform);
+      document.getElementById('meetingLinkInput').value = s.link || '';
+    }
+  }
+
+  function platformLabel(p) {
+    return { zoom: '💻 Zoom Meeting', teams: '🟦 Microsoft Teams', other: '🔗 Online Meeting' }[p] || '🔗 Meeting Link';
+  }
+
+  /* ── ADMIN ── */
+  let adminOpen = false;
+
+  function toggleAdmin() {
+    const sec = document.getElementById('admin-section');
+    adminOpen = !adminOpen;
+    if (adminOpen) {
+      sec.classList.add('open');
+      sec.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      sec.classList.remove('open');
+    }
+  }
+
+  function checkAdminPass() {
+    const val = document.getElementById('adminPassInput').value;
+    const err = document.getElementById('adminPassError');
+    if (val === ADMIN_PASS) {
+      document.getElementById('adminLoginWall').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+      renderAdminBookings();
+      renderAdminCalendar();
+      loadMeetingSettings();
+    } else {
+      err.textContent = 'Incorrect password. Try again.';
+      document.getElementById('adminPassInput').value = '';
+    }
+  }
+
+  function adminLogout() {
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('adminLoginWall').style.display = 'block';
+    document.getElementById('adminPassInput').value = '';
+    document.getElementById('adminPassError').textContent = '';
+    document.getElementById('admin-section').classList.remove('open');
+    adminOpen = false;
+  }
+
+  function renderAdminBookings() {
+    const list = document.getElementById('adminBookingList');
+    const timeOrder = {'9:00 AM':0,'10:00 AM':1,'11:00 AM':2,'12:00 PM':3,'1:00 PM':4,'2:00 PM':5,'3:00 PM':6,'4:00 PM':7};
+    const bookings = getBookings().sort((a, b) => {
+      const dateCmp = a.date.localeCompare(b.date);
+      if (dateCmp !== 0) return dateCmp;
+      return (timeOrder[a.time] ?? 99) - (timeOrder[b.time] ?? 99);
+    });
+
+    if (!bookings.length) {
+      list.innerHTML = '<p class="empty-state">No bookings yet.</p>';
+      return;
+    }
+
+    // Group by email (unique client)
+    const grouped = {};
+    bookings.forEach(b => {
+      const key = b.email.toLowerCase();
+      if (!grouped[key]) grouped[key] = { name: b.name, email: b.email, plan: b.plan, bookings: [] };
+      grouped[key].bookings.push(b);
+    });
+
+    list.innerHTML = Object.values(grouped).map((client, ci) => {
+      const mtg = getMeetingSettings();
+      const rows = client.bookings.map(b => {
+        const parts = b.date.split('-');
+        const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
+                        .toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric', year:'numeric'});
+        const meetingHtml = mtg.link
+          ? `<a href="${mtg.link}" target="_blank" style="font-size:0.7rem;color:var(--teal-lt);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:2px;">
+               🔗 ${platformLabel(mtg.platform)} — Join Link
+             </a>` : '';
+        return `<div class="client-booking-row">
+          <div class="client-booking-detail">
+            <span style="color:var(--text);font-size:0.8rem;">${disp} &nbsp;·&nbsp; ${b.time}</span>
+            <span class="client-booking-service">📋 ${b.service || '—'}</span>
+            ${b.plan ? `<span class="client-booking-plan">✦ ${b.plan} Plan</span>` : ''}
+            ${meetingHtml}
+          </div>
+          <button class="btn-cancel-booking" onclick="cancelBooking(${b.id});renderAdminDayPanel && adminSelectedDate && renderAdminDayPanel(adminSelectedDate)">✕ Remove</button>
+        </div>`;
+      }).join('');
+
+      return `<div class="client-group" id="clientGroup${ci}">
+        <div class="client-group-header" onclick="toggleClientGroup(${ci})">
+          <div class="client-group-info">
+            <span class="client-group-name">${client.name}</span>
+            <span class="client-group-meta">✉ ${client.email}${client.plan ? ' &nbsp;·&nbsp; ✦ ' + client.plan + ' Plan' : ''}</span>
+          </div>
+          <div class="client-group-right">
+            <span class="client-group-count">${client.bookings.length} session${client.bookings.length > 1 ? 's' : ''}</span>
+            <span class="client-group-toggle">▼</span>
+          </div>
+        </div>
+        <div class="client-group-bookings">${rows}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleClientGroup(i) {
+    const el = document.getElementById('clientGroup' + i);
+    el.classList.toggle('open');
+  }
+
+  function cancelBooking(id) {
+    if (!confirm('Remove this booking?')) return;
+    saveBookings(getBookings().filter(b => b.id !== id));
+    renderAdminBookings();
+    renderAdminCalendar();
+    renderCalendar();
+    renderSlots();
+  }
+
+
+  /* ── ONBOARDING ── */
+  const ONBOARD_KEY = 'mwa_onboarded';
+
+  function shakeInput(id) {
+    const el = document.getElementById(id);
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = 'shake 0.4s ease';
+    el.focus();
+  }
+
+  function showInputError(id, msg) {
+    const el  = document.getElementById(id);
+    el.style.borderColor = 'var(--red)';
+    el.style.animation   = 'shake 0.4s ease';
+    el.focus();
+    let err = document.getElementById(id + '_err');
+    if (!err) {
+      err = document.createElement('p');
+      err.id = id + '_err';
+      err.style.cssText = 'font-size:0.72rem;color:var(--red);margin-top:4px;margin-bottom:8px;';
+      el.parentNode.insertBefore(err, el.nextSibling);
+    }
+    err.textContent = msg;
+    setTimeout(() => el.style.animation = 'none', 400);
+  }
+
+  function clearInputError(id) {
+    const el  = document.getElementById(id);
+    el.style.borderColor = '';
+    const err = document.getElementById(id + '_err');
+    if (err) err.remove();
+  }
+
+  function initOnboarding() {
+    if (localStorage.getItem(ONBOARD_KEY)) {
+      document.getElementById('onboardOverlay').classList.add('hidden');
+      document.getElementById('onboardProgress').style.display = 'none';
+    } else {
+      document.getElementById('onboardOverlay').classList.remove('hidden');
+      setTimeout(() => document.getElementById('onboardName').focus(), 300);
+    }
+  }
+
+  function onboardNext(step) {
+    if (step === 1) {
+      const name = document.getElementById('onboardName').value.trim();
+      if (!name) {
+        shakeInput('onboardName');
+        return;
+      }
+      document.getElementById('onboardStep1').classList.remove('active');
+      document.getElementById('onboardStep2').classList.add('active');
+      document.getElementById('onboardProgress').style.width = '66%';
+      setTimeout(() => document.getElementById('onboardEmail').focus(), 200);
+    } else if (step === 2) {
+      const email = document.getElementById('onboardEmail').value.trim();
+      const phone = document.getElementById('onboardPhone').value.trim();
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const phoneValid = /^\+?[\d\s\-().]{7,15}$/.test(phone.replace(/\s/g,'')) && phone.replace(/\D/g,'').length >= 7;
+
+      if (!emailValid) {
+        showInputError('onboardEmail', 'Please enter a valid email address');
+        return;
+      }
+      if (!phoneValid) {
+        showInputError('onboardPhone', 'Please enter a valid phone number');
+        return;
+      }
+      clearInputError('onboardEmail');
+      clearInputError('onboardPhone');
+      document.getElementById('onboardStep2').classList.remove('active');
+      document.getElementById('onboardStep3').classList.add('active');
+      document.getElementById('onboardProgress').style.width = '100%';
+      setTimeout(() => document.getElementById('onboardZip').focus(), 200);
+    }
+  }
+
+  function onboardFinish() {
+    const zip = document.getElementById('onboardZip').value.trim();
+    if (!zip) { shakeInput('onboardZip'); return; }
+    saveOnboardData();
+    closeOnboarding();
+  }
+
+  function closeOnboarding() {
+    const overlay = document.getElementById('onboardOverlay');
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.4s';
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      document.getElementById('onboardProgress').style.display = 'none';
+    }, 400);
+    localStorage.setItem(ONBOARD_KEY, '1');
+  }
+
+  function saveOnboardData() {
+    const data = {
+      name:  document.getElementById('onboardName').value.trim(),
+      email: document.getElementById('onboardEmail').value.trim(),
+      phone: document.getElementById('onboardPhone').value.trim(),
+      zip:   document.getElementById('onboardZip').value.trim(),
+    };
+    // Pre-fill booking form with their name & email
+    if (data.name)  document.getElementById('bookName').value  = data.name;
+    if (data.email) document.getElementById('bookEmail').value = data.email;
+    // Store for admin
+    const visitors = JSON.parse(localStorage.getItem('mwa_visitors') || '[]');
+    visitors.push({ ...data, date: new Date().toISOString() });
+    localStorage.setItem('mwa_visitors', JSON.stringify(visitors));
+  }
+
+  initOnboarding();
+
+  /* ── LIVE MARKET DATA (Finnhub) ── */
+  const FINNHUB_KEY = 'd7sa8l9r01qorsvi0650d7sa8l9r01qorsvi065g';
+
+  function fmt(n)    { return n == null ? '—' : n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+  function fmtPct(n) { return n == null ? '—' : (n > 0 ? '+' : '') + n.toFixed(2) + '%'; }
+
+  async function fetchQuote(symbol) {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_KEY}`;
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  function setPanel(priceId, subId, changeId, price, prevClose, pctChange, subText) {
+    document.getElementById(priceId).innerHTML = `<span class="live-dot"></span>$${fmt(price)}`;
+    document.getElementById(subId).textContent = subText;
+    const el    = document.getElementById(changeId);
+    const isUp  = pctChange >= 0;
+    el.className    = isUp ? 'badge-up' : 'badge-dn';
+    el.textContent  = fmtPct(pctChange) + '  (prev $' + fmt(prevClose) + ')';
+    el.style.display = 'inline-flex';
+  }
+
+  function qqqlevel(pct) {
+    if (pct >  1.5) return 'Nasdaq surging — Tech momentum strong';
+    if (pct >  0.3) return 'Nasdaq up — Positive tech sentiment';
+    if (pct > -0.3) return 'Nasdaq flat — Mixed signals';
+    if (pct > -1.5) return 'Nasdaq down — Caution advised';
+    return 'Nasdaq selling off — Risk-off mode';
+  }
+
+  async function loadLiveData() {
+    try {
+      const [spy, nvda, qqq] = await Promise.all([
+        fetchQuote('SPY'),
+        fetchQuote('NVDA'),
+        fetchQuote('QQQ')
+      ]);
+
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}) + ' ET';
+      document.getElementById('spyTimestamp').textContent = time;
+
+      setPanel('spyPrice', 'spyOpen', 'spyChange', spy.c, spy.pc, spy.dp,
+        `Open $${fmt(spy.o)} · High $${fmt(spy.h)} · Low $${fmt(spy.l)}`);
+
+      setPanel('nvdaPrice', 'nvdaOpen', 'nvdaChange', nvda.c, nvda.pc, nvda.dp,
+        `Open $${fmt(nvda.o)} · High $${fmt(nvda.h)} · Low $${fmt(nvda.l)}`);
+
+      document.getElementById('vixPrice').innerHTML = `<span class="live-dot"></span>$${fmt(qqq.c)}`;
+      document.getElementById('vixLevel').textContent = qqqlevel(qqq.dp);
+      const qEl = document.getElementById('vixChange');
+      qEl.className    = qqq.dp >= 0 ? 'badge-up' : 'badge-dn';
+      qEl.textContent  = fmtPct(qqq.dp) + ' today';
+      qEl.style.display = 'inline-flex';
+
+      document.getElementById('apiKeyNotice').style.display = 'none';
+
+    } catch(e) {
+      document.getElementById('apiKeyNotice').style.display = 'block';
+      document.getElementById('apiKeyNotice').innerHTML =
+        '⚠ Could not load live data. Make sure you are connected to the internet.';
+      ['spyPrice','nvdaPrice','vixPrice'].forEach(id =>
+        document.getElementById(id).innerHTML = '—');
+      ['spyOpen','nvdaOpen','vixLevel'].forEach(id =>
+        document.getElementById(id).textContent = 'Data unavailable');
+      console.error('Market data error:', e);
+    }
+  }
+
+  loadLiveData();
+  setInterval(loadLiveData, 30000);
+
+  /* ── INIT ── */
+  renderCalendar();
+</script>
+</body>
+</html>
