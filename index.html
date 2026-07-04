@@ -1,3 +1,21 @@
+
+
+Skip to content
+Using Gmail with screen readers
+Enable desktop notifications for Gmail.
+   OK  No thanks
+3 of 308
+(no subject)
+Inbox
+
+SAAD BABAR
+Attachments
+8:17 PM (51 minutes ago)
+to me
+
+
+ One attachment
+  •  Scanned by Gmail
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -411,6 +429,37 @@
 
     .no-date-msg { color: var(--muted); font-size: 0.85rem; padding: 20px 0; text-align: center; opacity: 0.7; }
 
+    /* Cancel appointment section */
+    .cancel-appt-box {
+      background: rgba(201,112,112,0.06); border: 1px solid rgba(201,112,112,0.25);
+      padding: 28px 32px; margin-bottom: 40px; display: flex;
+      align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .cancel-appt-left { display: flex; flex-direction: column; gap: 4px; }
+    .cancel-appt-title { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+    .cancel-appt-sub { font-size: 0.75rem; color: var(--muted); }
+    .btn-cancel-appt {
+      background: none; border: 1px solid rgba(201,112,112,0.4); color: var(--red);
+      font-family: 'Barlow', sans-serif; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 22px;
+      cursor: pointer; transition: all 0.25s; white-space: nowrap;
+    }
+    .btn-cancel-appt:hover { background: rgba(201,112,112,0.1); border-color: var(--red); }
+    .cancel-modal {
+      background: #1e2b33; border: 1px solid var(--border);
+      max-width: 460px; width: 93%; position: relative;
+      animation: popIn 0.35s cubic-bezier(0.16,1,0.3,1); padding: 40px;
+    }
+    .cancel-modal-title { font-family: 'Cormorant Garamond',serif; font-size: 1.6rem; color: #fff; margin-bottom: 8px; }
+    .cancel-modal-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
+    .cancel-booking-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border: 1px solid var(--border); margin-bottom: 10px;
+      background: rgba(35,53,64,0.6);
+    }
+    .cancel-booking-info { display: flex; flex-direction: column; gap: 3px; }
+    .cancel-booking-date { font-size: 0.82rem; color: var(--text); }
+    .cancel-booking-service { font-size: 0.7rem; color: var(--teal-lt); }
     /*  ONBOARDING OVERLAY  */
     .onboard-overlay {
       position: fixed; inset: 0; z-index: 9999;
@@ -1264,6 +1313,22 @@
 
 <hr class="divider"/>
 
+<!-- CANCEL APPOINTMENT MODAL -->
+<div class="modal-overlay" id="cancelApptModal">
+  <div class="cancel-modal">
+    <h3 class="cancel-modal-title">Cancel Appointment</h3>
+    <p class="cancel-modal-sub">Enter your email address to find your bookings and select one to cancel.</p>
+    <div class="pay-field" style="margin-bottom:16px;">
+      <label style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal-lt);">Your Email</label>
+      <input type="email" id="cancelEmailInput" placeholder="you@email.com"
+        style="background:rgba(35,53,64,0.85);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.9rem;padding:11px 14px;outline:none;width:100%;transition:border-color 0.25s;"
+        oninput="lookupCancelBookings()"/>
+    </div>
+    <div id="cancelBookingResults"></div>
+    <button class="btn-pay-cancel" onclick="closeCancelModal()" style="margin-top:16px;">Close</button>
+  </div>
+</div>
+
 <!-- PAYMENT MODAL -->
 <div class="payment-modal-overlay" id="paymentModal">
   <div class="payment-modal">
@@ -1355,6 +1420,15 @@
       <span id="bannerPlanPrice"></span>
     </div>
     <button class="btn-change-plan" onclick="changePlan()">Change Plan</button>
+  </div>
+
+  <!-- Cancel appointment bar -->
+  <div class="cancel-appt-box">
+    <div class="cancel-appt-left">
+      <span class="cancel-appt-title">Need to cancel or reschedule?</span>
+      <span class="cancel-appt-sub">Enter your email to find and cancel an existing appointment.</span>
+    </div>
+    <button class="btn-cancel-appt" onclick="openCancelModal()">Cancel My Appointment</button>
   </div>
 
   <!-- Locked overlay (shown before payment) -->
@@ -1783,6 +1857,7 @@
     const bookings = getBookings();
     bookings.push({ date: selectedDate, time: selectedSlot, name, email, service, plan, id: Date.now() });
     saveBookings(bookings);
+    notifyOwner('booking', { name, email, service, date: selectedDate, time: selectedSlot, plan });
 
     const parts = selectedDate.split('-');
     const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
@@ -2141,6 +2216,77 @@
     return { zoom: ' Zoom Meeting', teams: ' Microsoft Teams', other: ' Online Meeting' }[p] || ' Meeting Link';
   }
 
+  /* ── NTFY PHONE NOTIFICATIONS ── */
+  // Replace with your secret ntfy topic name
+  const NTFY_TOPIC = 'riqueza-consultancy';
+
+  function notifyOwner(type, data) {
+    if (NTFY_TOPIC === 'YOUR_SECRET_TOPIC_HERE') return;
+    const isBooking = type === 'booking';
+    const title   = isBooking ? 'New Booking - Riqueza' : 'Booking Cancelled - Riqueza';
+    const message = isBooking
+      ? `${data.name} booked ${data.service} on ${data.date} at ${data.time}`
+      : `${data.name} cancelled ${data.service} on ${data.date} at ${data.time}`;
+    fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+      method: 'POST',
+      headers: {
+        'Title':    title,
+        'Priority': 'high',
+        'Tags':     isBooking ? 'calendar,white_check_mark' : 'calendar,x'
+      },
+      body: message
+    }).catch(e => console.warn('ntfy error:', e));
+  }
+
+  /* ── CANCEL APPOINTMENT MODAL ── */
+  function openCancelModal() {
+    document.getElementById('cancelEmailInput').value = '';
+    document.getElementById('cancelBookingResults').innerHTML = '';
+    document.getElementById('cancelApptModal').classList.add('open');
+    setTimeout(() => document.getElementById('cancelEmailInput').focus(), 200);
+  }
+
+  function closeCancelModal() {
+    document.getElementById('cancelApptModal').classList.remove('open');
+  }
+
+  function lookupCancelBookings() {
+    const email   = document.getElementById('cancelEmailInput').value.trim().toLowerCase();
+    const results = document.getElementById('cancelBookingResults');
+    if (!email || !email.includes('@')) { results.innerHTML = ''; return; }
+    const timeOrder = {'9:00 AM':0,'10:00 AM':1,'11:00 AM':2,'12:00 PM':3,'1:00 PM':4,'2:00 PM':5,'3:00 PM':6,'4:00 PM':7};
+    const bookings = getBookings()
+      .filter(b => b.email.toLowerCase() === email)
+      .sort((a,b) => a.date.localeCompare(b.date) || (timeOrder[a.time]||0) - (timeOrder[b.time]||0));
+
+    if (!bookings.length) {
+      results.innerHTML = `<p style="font-size:0.8rem;color:var(--muted);padding:12px 0;">No bookings found for this email.</p>`;
+      return;
+    }
+    results.innerHTML = bookings.map(b => {
+      const parts = b.date.split('-');
+      const disp  = new Date(+parts[0], +parts[1]-1, +parts[2])
+                      .toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric', year:'numeric'});
+      return `<div class="cancel-booking-row">
+        <div class="cancel-booking-info">
+          <span class="cancel-booking-date">${disp} &nbsp;·&nbsp; ${b.time}</span>
+          <span class="cancel-booking-service">${b.service || '—'}</span>
+        </div>
+        <button class="btn-cancel-booking" onclick="clientCancelBooking(${b.id})">Cancel</button>
+      </div>`;
+    }).join('');
+  }
+
+  function clientCancelBooking(id) {
+    if (!confirm('Are you sure you want to cancel this appointment?')) return;
+    const booking = getBookings().find(b => b.id === id);
+    saveBookings(getBookings().filter(b => b.id !== id));
+    if (booking) notifyOwner('cancel', booking);
+    closeCancelModal();
+    renderCalendar();
+    renderSlots();
+  }
+
   /*  ADMIN  */
   let adminOpen = false;
 
@@ -2245,7 +2391,9 @@
 
   function cancelBooking(id) {
     if (!confirm('Remove this booking?')) return;
+    const booking = getBookings().find(b => b.id === id);
     saveBookings(getBookings().filter(b => b.id !== id));
+    if (booking) notifyOwner('cancel', booking);
     renderAdminBookings();
     renderAdminCalendar();
     renderCalendar();
@@ -2445,3 +2593,5 @@
 </script>
 </body>
 </html>
+index.html
+Displaying index.html.
